@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Stress ratio</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> 
+	<link type="text/css" rel="stylesheet" href="assets/css/bootstrap.min.css"  media="screen,projection"/>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+
+	<div class="main-container">
+		<div class="container">
+			<div class="inner-container">
+				<div class="vertical-center">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="display-box">
+								<div class="heading text-center">
+									<h4>INPUT</h4>
+								</div>
+								<label for="loadInput">Load Input(kg)</label><br>
+								<input type="text" id="loadInput" placeholder="Enter value" class="input-box" required><br>
+								<label for="distance">Distance of load from support(cm)</label><br>
+								<input type="text" id="distance" placeholder="Enter value" class="input-box" required><br>
+								<label for="breadth">Breadth of specimen(mm)</label><br>
+								<input type="text" id="breadth" placeholder="Enter value" class="input-box"><br>
+								<label for="depth">Depth of specimen(mm)</label><br>
+								<input type="text" id="depth" placeholder="Enter value" class="input-box"><br>
+								<label for="fck">Compressive Strength(N/mm<sup>2</sup>)</label><br>
+								<input type="text" id="fck" placeholder="Enter value" class="input-box"><br>
+								<button class="btn myBtn" onclick="calculator()">CALCULATE</button>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="display-box">
+								<div class="heading text-center">
+									<h4>OUTPUT</h4>
+								</div>
+								<label for="inertia">Inertia</label><br>
+								<input type="text" id="inertia" class="input-box" disabled><br>
+								<label for="secmod">Section modulus of rectangular section(mm<sup>3</sup>)</label><br>
+								<input type="text" id="secmod" class="input-box" disabled><br>
+								<label for="strength">Flexural Strength of concrete(N/mm<sup>2</sup>)</label><br>
+								<input type="text" id="strength" class="input-box" disabled><br>
+								<label for="stress">Stress(N/mm<sup>2</sup>)</label><br>
+								<input type="text" id="stress" class="input-box" disabled><br>
+								<label for="sr">Stress ratio</label><br>
+								<input type="text" id="sr" class="input-box" disabled><br>
+								<label for="cycles">N- Number of cycles</label><br>
+								<input type="text" id="cycles" class="input-box" disabled><br>
+								<label for="logCycles">Log N</label><br>
+								<input type="text" id="logCycles" class="input-box" disabled><br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer text-center">
+				<h6 id="footer-text">Coded with <span style="color: red">&hearts;</span> by <a href="http://bit.ly/chiranth" target="_blank">Chiranth</a></h6>
+			</div>
+		</div>
+	</div>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-114677838-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-114677838-1');
+	</script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		function calculator(){
+			loadInput= Number(document.getElementById('loadInput').value);
+			distance= Number(document.getElementById('distance').value);
+			breadth= Number(document.getElementById('breadth').value);
+			depth= Number(document.getElementById('depth').value);
+			fck= Number(document.getElementById('fck').value);
+			inertia= document.getElementById('inertia');
+			inertia.value= ((breadth*depth*depth*depth)/12).toFixed(0);
+			secmod= document.getElementById('secmod');
+			secmod.value=(inertia.value/(depth/2)).toFixed(0);
+			strength= document.getElementById('strength');
+			strength.value= ((Math.sqrt(fck))*0.7).toFixed(4);
+			load=(loadInput/2)*9.81;
+			stress= document.getElementById('stress');
+			stress.value= ((load*distance*10)/secmod.value).toFixed(4);
+			sr= document.getElementById('sr');
+			sr.value= (stress.value/strength.value).toFixed(2);
+			logCycles= document.getElementById('logCycles');
+			logCycles.value=((0.9718-sr.value)/0.0828).toFixed(6);
+			cycles= document.getElementById('cycles');
+			cycles.value=(Math.pow(10,logCycles.value)).toFixed(6);
+		}
+	</script>
+</body>
+</html>

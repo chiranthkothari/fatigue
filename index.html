@@ -89,7 +89,7 @@
 			strength.value= ((Math.sqrt(fck))*0.7).toFixed(4);
 			load=(loadInput/2)*9.81;
 			stress= document.getElementById('stress');
-			stres.value= ((load*distance*10)/secmod.value).toFixed(4);
+			stress.value= ((load*distance*10)/secmod.value).toFixed(4);
 			sr= document.getElementById('sr');
 			sr.value= (stress.value/strength.value).toFixed(2);
 			logCycles= document.getElementById('logCycles');
